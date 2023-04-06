@@ -2,6 +2,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -20,6 +21,12 @@ public class SimpleClock extends JFrame {
         String day;
         String date;
 
+        JButton militaryTime;
+        JButton gmt;
+
+        boolean isMilitary = false;
+        boolean isGMT = false;
+
         SimpleClock() {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setTitle("Digital Clock");
@@ -28,29 +35,54 @@ public class SimpleClock extends JFrame {
             this.setResizable(false);
     
             timeFormat = new SimpleDateFormat("hh:mm:ss a");
-            dayFormat=new SimpleDateFormat("EEEE");
-            dateFormat=new SimpleDateFormat("dd MMMMM, yyyy");
+            dayFormat = new SimpleDateFormat("EEEE");
+            dateFormat = new SimpleDateFormat("dd MMMMM, yyyy");
             timeLabel = new JLabel();
             timeLabel.setFont(new Font("SANS_SERIF", Font.PLAIN, 59));
             timeLabel.setBackground(Color.BLACK);
             timeLabel.setForeground(Color.WHITE);
             timeLabel.setOpaque(true);
-            dayLabel=new JLabel();
+            dayLabel = new JLabel();
             dayLabel.setFont(new Font("Ink Free",Font.BOLD,34));
     
-            dateLabel=new JLabel();
+            dateLabel = new JLabel();
             dateLabel.setFont(new Font("Ink Free",Font.BOLD,30));
-    
+
+            militaryTime = new JButton("Military");
+            militaryTime.addActionListener(this::militaryStandard);
+            gmt = new JButton("GMT");
+            gmt.addActionListener(this::gmtTimezone);
+
+
     
             this.add(timeLabel);
             this.add(dayLabel);
             this.add(dateLabel);
             this.setVisible(true);
+            this.add(militaryTime);
+            this.add(gmt);
     
             setTimer();
         }
-    
-        public void setTimer() {
+
+    private void gmtTimezone(ActionEvent actionEvent) {
+            if(isGMT){
+
+            }
+    }
+
+    private void militaryStandard(ActionEvent actionEvent) {
+       if(isMilitary){
+           timeFormat = new SimpleDateFormat("hh:mm:ss a");
+           isMilitary = false;
+       } else {
+           timeFormat = new SimpleDateFormat("HH:mm:ss a");
+           isMilitary = true;
+       }
+    }
+
+
+    public void setTimer() {
             while (true) {
                 time = timeFormat.format(Calendar.getInstance().getTime());
                 timeLabel.setText(time);
