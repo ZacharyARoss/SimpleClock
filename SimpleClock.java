@@ -4,12 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 
 public class SimpleClock extends JFrame {
+
+//    Instant nowUtc = Instant.now();
+//    ZoneId asiaSingapore = ZoneId.of("Asia/Singapore");
     
-        Calendar calendar;
+        Calendar calendar= Calendar.getInstance();
+        TimeZone timeZone= TimeZone.getDefault();
         SimpleDateFormat timeFormat;
         SimpleDateFormat dayFormat;
         SimpleDateFormat dateFormat;
@@ -26,6 +33,9 @@ public class SimpleClock extends JFrame {
 
         boolean isMilitary = false;
         boolean isGMT = false;
+
+
+
 
         SimpleClock() {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,10 +75,22 @@ public class SimpleClock extends JFrame {
             setTimer();
         }
 
+    public void MyTimeZoneClass() {
+        // Initialize the calendar and timeZone objects
+        calendar = Calendar.getInstance();
+        timeZone = TimeZone.getDefault();
+    }
     private void gmtTimezone(ActionEvent actionEvent) {
-            if(isGMT){
+        if (!isGMT) {
+            // Get the GMT timezone object
+            TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
 
-            }
+            // Set the timezone of the calendar and the current timezone to GMT
+            calendar.setTimeZone(gmtTimeZone);
+            timeZone = gmtTimeZone;
+
+            isGMT = true;
+        }
     }
 
     private void militaryStandard(ActionEvent actionEvent) {
